@@ -263,9 +263,15 @@
 
     $.each( data, function( name, values ) {
       $.each( elementsByName[ name ], function( elementIndex, element ) {
-        $.each( values, function( valueIndex, value ) {
-          update( element, elementIndex, value, valueIndex, options.change );
-        });
+
+		if ( element.selectize ) {
+			element.selectize.setValue( values );
+		} else {
+			$.each( values, function( valueIndex, value ) {
+			  update( element, elementIndex, value, valueIndex, options.change );
+			});
+		}
+
       });
     });
 
