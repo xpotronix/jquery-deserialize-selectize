@@ -96,6 +96,7 @@
   function normalizeData( data ) {
     var normalized = {};
     var rPlus = /\+/g;
+	  var rBrackets = /%5B[0-9]+%5D/g;
 
     // Convert data from .serializeObject() notation
     if ( $.isPlainObject( data ) ) {
@@ -116,6 +117,12 @@
 
     // Convert data from .serialize() notation
     } else if ( typeof data === "string" ) {
+
+		data = data.replace( rBrackets, "[]"  );
+
+		const urlSearchParams = new URLSearchParams(data);
+		const params = Object.fromEntries(urlSearchParams.entries());
+
       $.each( data.split( "&" ), function( index, field ) {
         var current = field.split( "=" );
         var name = decodeURIComponent( current[ 0 ].replace( rPlus, "%20" ) );
