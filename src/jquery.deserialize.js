@@ -97,6 +97,7 @@
     var normalized = {};
     var rPlus = /\+/g;
 	  var rBrackets = /%5B[0-9]+%5D/g;
+	  var rBrackets2 = /\[[0-9]+\]/g;
 
     // Convert data from .serializeObject() notation
     if ( $.isPlainObject( data ) ) {
@@ -118,6 +119,7 @@
     // Convert data from .serialize() notation
     } else if ( typeof data === "string" ) {
 
+		data = data.replace( rBrackets2, "[]"  );
 		data = data.replace( rBrackets, "[]"  );
 
 		const urlSearchParams = new URLSearchParams(data);
@@ -270,6 +272,8 @@
 
     $.each( data, function( name, values ) {
       $.each( elementsByName[ name ], function( elementIndex, element ) {
+
+		console.log( elementsByName[name], values );
 
 		if ( element.selectize ) {
 			element.selectize.setValue( values );
